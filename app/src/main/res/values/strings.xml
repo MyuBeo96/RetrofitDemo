@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">RetrofitDemo</string>
+    <string name="error">Error, pls chech your internet connection and try again!</string>
+</resources>
