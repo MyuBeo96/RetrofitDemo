@@ -8,7 +8,7 @@ import retrofit2.http.Query;
 public interface SOService {
 
     @GET("/2.2/answers?order=desc&sort=activity&site=stackoverflow")
-    Call<List<SOAnswersResponse>> getAnswers();
+    Call<SOAnswersResponse> getAnswers();
 
     @GET("/2.2/answers?order=desc&sort=activity&site=stackoverflow")
     Call<List<SOAnswersResponse>> getAnswers(@Query("tagged") String tags);

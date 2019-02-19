@@ -44,20 +44,16 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void loadAnswers() {
-        mService.getAnswers().enqueue(new Callback<List<SOAnswersResponse>>() {
+        mService.getAnswers().enqueue(new Callback<SOAnswersResponse>() {
             @Override
-            public void onResponse(Call<List<SOAnswersResponse>> call, Response<List<SOAnswersResponse>> response) {
-                if(response.isSuccessful()){
-                    List<SOAnswersResponse> soAnswersResponseList = response.body();
-                    
-                    Log.d("MainActivity", "posts loaded from API");
-                }
+            public void onResponse(Call<SOAnswersResponse> call, Response<SOAnswersResponse> response) {
+                mAdapter.updateAnswers(response.body().getItems());
+
             }
 
             @Override
-            public void onFailure(Call<List<SOAnswersResponse>> call, Throwable t) {
+            public void onFailure(Call<SOAnswersResponse> call, Throwable t) {
                 showErrorMessage();
-                Log.d("MainActivity", "error loading from API");
             }
         });
     }
@@ -65,5 +61,15 @@ public class MainActivity extends AppCompatActivity {
     private void showErrorMessage() {
         Toast.makeText(this, "Error loading posts", Toast.LENGTH_SHORT).show();
     }
+
+//    private void setDataInRecyclerView(){
+//        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
+//        ((LinearLayoutManager) layoutManager).setOrientation(LinearLayoutManager.VERTICAL);
+//        mRecyclerView.setLayoutManager(layoutManager);
+//        mRecyclerView.setAdapter(mAdapter);
+//        mRecyclerView.setHasFixedSize(true);
+//        RecyclerView.ItemDecoration itemDecoration = new DividerItemDecoration(this, DividerItemDecoration.VERTICAL);
+//        mRecyclerView.addItemDecoration(itemDecoration);
+//    }
 
 }
