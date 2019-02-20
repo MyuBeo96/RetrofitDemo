@@ -5,11 +5,9 @@ import android.os.Bundle;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -30,8 +28,14 @@ public class MainActivity extends AppCompatActivity {
         mService = ApiUtils.getSOService();
         mRecyclerView =  findViewById(R.id.rv_answers);
         items = new ArrayList<>();
-        mAdapter = new AnswersAdapter(this, items);
+        mAdapter = new AnswersAdapter(this, items, new AnswersAdapter.PostItemListener() {
 
+            @Override
+            public void onPostClick(long id, long question_id) {
+                Toast.makeText(MainActivity.this, "Post id is: " + id
+                        + " question_id: " + question_id, Toast.LENGTH_SHORT).show();
+            }
+        });
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         ((LinearLayoutManager) layoutManager).setOrientation(LinearLayoutManager.VERTICAL);
         mRecyclerView.setLayoutManager(layoutManager);
@@ -62,14 +66,5 @@ public class MainActivity extends AppCompatActivity {
         Toast.makeText(this, "Error loading posts", Toast.LENGTH_SHORT).show();
     }
 
-//    private void setDataInRecyclerView(){
-//        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
-//        ((LinearLayoutManager) layoutManager).setOrientation(LinearLayoutManager.VERTICAL);
-//        mRecyclerView.setLayoutManager(layoutManager);
-//        mRecyclerView.setAdapter(mAdapter);
-//        mRecyclerView.setHasFixedSize(true);
-//        RecyclerView.ItemDecoration itemDecoration = new DividerItemDecoration(this, DividerItemDecoration.VERTICAL);
-//        mRecyclerView.addItemDecoration(itemDecoration);
-//    }
 
 }

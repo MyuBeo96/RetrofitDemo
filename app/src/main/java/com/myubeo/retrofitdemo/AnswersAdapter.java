@@ -31,15 +31,16 @@ public class AnswersAdapter extends RecyclerView.Adapter<AnswersAdapter.ViewHold
         @Override
         public void onClick(View view) {
             Item item = getItem(getAdapterPosition());
-            this.mItemListener.onPostClick(item.getAnswerId());
+            this.mItemListener.onPostClick(item.getAnswerId(), item.getQuestionId());
 
             notifyDataSetChanged();
         }
     }
 
-    public AnswersAdapter(Context context, List<Item> posts) {
+    public AnswersAdapter(Context context, List<Item> posts, PostItemListener itemListener) {
         mItems = posts;
         mContext = context;
+        mItemListener = itemListener;
     }
 
     @Override
@@ -77,6 +78,6 @@ public class AnswersAdapter extends RecyclerView.Adapter<AnswersAdapter.ViewHold
     }
 
     public interface PostItemListener {
-        void onPostClick(long id);
+        void onPostClick(long id, long question_id);
     }
 }
