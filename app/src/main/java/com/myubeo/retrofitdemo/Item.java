@@ -3,6 +3,8 @@ package com.myubeo.retrofitdemo;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.List;
+
 public class Item {
     @SerializedName("owner")
     @Expose
@@ -31,6 +33,9 @@ public class Item {
     @SerializedName("community_owned_date")
     @Expose
     private Integer communityOwnedDate;
+    public boolean isShow;
+
+    public Item(){ }
 
     public Owner getOwner() {
         return owner;
@@ -102,5 +107,13 @@ public class Item {
 
     public void setCommunityOwnedDate(Integer communityOwnedDate) {
         this.communityOwnedDate = communityOwnedDate;
+    }
+
+    public boolean isShow() {
+        return isShow;
+    }
+
+    public void setShow(boolean show) {
+        isShow = show;
     }
 }

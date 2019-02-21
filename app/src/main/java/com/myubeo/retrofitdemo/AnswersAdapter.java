@@ -5,7 +5,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -15,52 +17,95 @@ public class AnswersAdapter extends RecyclerView.Adapter<AnswersAdapter.ViewHold
     private Context mContext;
     private PostItemListener mItemListener;
 
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener{
 
         public TextView titleTv;
+        public Button btn_true;
+        public Button btn_false;
         PostItemListener mItemListener;
 
-        public ViewHolder(View itemView, PostItemListener postItemListener) {
+        public ViewHolder(View itemView) {
             super(itemView);
-            titleTv = (TextView) itemView.findViewById(android.R.id.text1);
+            titleTv = (TextView) itemView.findViewById(R.id.txt_text);
+            btn_true = itemView.findViewById(R.id.btn_true);
+            btn_false = itemView.findViewById(R.id.btn_false);
 
+            titleTv.setOnClickListener(this);
+            titleTv.setOnLongClickListener((View.OnLongClickListener) this);
+
+            btn_true.setOnClickListener(this);
+
+            btn_false.setOnClickListener(this);
+
+        }
+
+        public void PostItemListener(PostItemListener postItemListener){
             this.mItemListener = postItemListener;
-            itemView.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View view) {
-            Item item = getItem(getAdapterPosition());
-            this.mItemListener.onPostClick(item.getAnswerId(), item.getQuestionId());
+            mItemListener.onPostClick(view, getAdapterPosition(), false);
+            Item item1 = getItem(getAdapterPosition());
+            switch (view.getId()){
+                case R.id.btn_true:
+                    Toast.makeText(view.getContext(), "Đúng rồi " + item1.getAnswerId(), Toast.LENGTH_LONG).show();
+                    break;
+                case R.id.btn_false:
+                    Toast.makeText(view.getContext(), "Sai rồi " + item1.getQuestionId(), Toast.LENGTH_LONG).show();
+                    break;
+                    default:
+                        break;
+            }
 
-            notifyDataSetChanged();
+        }
+
+        @Override
+        public boolean onLongClick(View v) {
+            mItemListener.onPostClick(v,getAdapterPosition(), true);
+            return false;
         }
     }
 
-    public AnswersAdapter(Context context, List<Item> posts, PostItemListener itemListener) {
+    public AnswersAdapter(Context context, List<Item> posts) {
         mItems = posts;
         mContext = context;
-        mItemListener = itemListener;
     }
 
     @Override
     public AnswersAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
-        Context context = parent.getContext();
-        LayoutInflater inflater = LayoutInflater.from(context);
-
-        View postView = inflater.inflate(android.R.layout.simple_list_item_1, parent, false);
-
-        ViewHolder viewHolder = new ViewHolder(postView, this.mItemListener);
+        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
+        View postView = inflater.inflate(R.layout.item,parent,false);
+        ViewHolder viewHolder = new ViewHolder(postView);
         return viewHolder;
     }
 
     @Override
-    public void onBindViewHolder(AnswersAdapter.ViewHolder holder, int position) {
-
-        Item item = mItems.get(position);
+    public void onBindViewHolder(final AnswersAdapter.ViewHolder holder, int position) {
+        final Item item = mItems.get(position);
         TextView textView = holder.titleTv;
         textView.setText(item.getOwner().getDisplayName());
+
+        if(item.isShow()){
+            holder.btn_true.setVisibility(View.VISIBLE);
+            holder.btn_false.setVisibility(View.VISIBLE);
+        }else {
+            holder.btn_true.setVisibility(View.GONE);
+            holder.btn_false.setVisibility(View.GONE);
+        }
+
+        holder.PostItemListener(new PostItemListener() {
+            @Override
+            public void onPostClick(View view, int position, boolean isLongClick) {
+                if(item.isShow()){
+                    item.setShow(false);
+                }else {
+                    item.setShow(true);
+                }
+                notifyItemChanged(holder.getAdapterPosition());
+            }
+        });
     }
 
     @Override
@@ -78,6 +123,6 @@ public class AnswersAdapter extends RecyclerView.Adapter<AnswersAdapter.ViewHold
     }
 
     public interface PostItemListener {
-        void onPostClick(long id, long question_id);
+        void onPostClick(View view, int position,boolean isLongClick);
     }
 }

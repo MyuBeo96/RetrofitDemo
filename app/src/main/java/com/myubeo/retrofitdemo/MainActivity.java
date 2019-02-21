@@ -19,7 +19,8 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView mRecyclerView;
     private SOService mService;
 
-    ArrayList<Item> items;
+    ArrayList<Item> items = new ArrayList<>();
+    Item item = new Item();
 
     @Override
     protected void onCreate (Bundle savedInstanceState)  {
@@ -27,22 +28,14 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main );
         mService = ApiUtils.getSOService();
         mRecyclerView =  findViewById(R.id.rv_answers);
-        items = new ArrayList<>();
-        mAdapter = new AnswersAdapter(this, items, new AnswersAdapter.PostItemListener() {
-
-            @Override
-            public void onPostClick(long id, long question_id) {
-                Toast.makeText(MainActivity.this, "Post id is: " + id
-                        + " question_id: " + question_id, Toast.LENGTH_SHORT).show();
-            }
-        });
+        mAdapter = new AnswersAdapter(this, items);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         ((LinearLayoutManager) layoutManager).setOrientation(LinearLayoutManager.VERTICAL);
         mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.setAdapter(mAdapter);
-        mRecyclerView.setHasFixedSize(true);
-        RecyclerView.ItemDecoration itemDecoration = new DividerItemDecoration(this, DividerItemDecoration.VERTICAL);
-        mRecyclerView.addItemDecoration(itemDecoration);
+//        mRecyclerView.setHasFixedSize(true);
+//        RecyclerView.ItemDecoration itemDecoration = new DividerItemDecoration(this, DividerItemDecoration.VERTICAL);
+//        mRecyclerView.addItemDecoration(itemDecoration);
 
         loadAnswers();
     }
