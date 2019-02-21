@@ -17,7 +17,7 @@ public class AnswersAdapter extends RecyclerView.Adapter<AnswersAdapter.ViewHold
     private Context mContext;
     private PostItemListener mItemListener;
 
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener{
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
         public TextView titleTv;
         public Button btn_true;
@@ -31,7 +31,6 @@ public class AnswersAdapter extends RecyclerView.Adapter<AnswersAdapter.ViewHold
             btn_false = itemView.findViewById(R.id.btn_false);
 
             titleTv.setOnClickListener(this);
-            titleTv.setOnLongClickListener((View.OnLongClickListener) this);
 
             btn_true.setOnClickListener(this);
 
@@ -47,23 +46,17 @@ public class AnswersAdapter extends RecyclerView.Adapter<AnswersAdapter.ViewHold
         public void onClick(View view) {
             mItemListener.onPostClick(view, getAdapterPosition(), false);
             Item item1 = getItem(getAdapterPosition());
-            switch (view.getId()){
+            switch (view.getId()) {
                 case R.id.btn_true:
                     Toast.makeText(view.getContext(), "Đúng rồi " + item1.getAnswerId(), Toast.LENGTH_LONG).show();
                     break;
                 case R.id.btn_false:
                     Toast.makeText(view.getContext(), "Sai rồi " + item1.getQuestionId(), Toast.LENGTH_LONG).show();
                     break;
-                    default:
-                        break;
+                default:
+                    break;
             }
 
-        }
-
-        @Override
-        public boolean onLongClick(View v) {
-            mItemListener.onPostClick(v,getAdapterPosition(), true);
-            return false;
         }
     }
 

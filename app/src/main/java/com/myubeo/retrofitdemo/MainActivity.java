@@ -33,9 +33,6 @@ public class MainActivity extends AppCompatActivity {
         ((LinearLayoutManager) layoutManager).setOrientation(LinearLayoutManager.VERTICAL);
         mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.setAdapter(mAdapter);
-//        mRecyclerView.setHasFixedSize(true);
-//        RecyclerView.ItemDecoration itemDecoration = new DividerItemDecoration(this, DividerItemDecoration.VERTICAL);
-//        mRecyclerView.addItemDecoration(itemDecoration);
 
         loadAnswers();
     }
