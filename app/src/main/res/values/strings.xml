@@ -6,4 +6,6 @@
     <string name="reputation">Reputation:</string>
     <string name="last_activity_date">last_activity_date:</string>
     <string name="answer_id">answer_id:</string>
+    <string name="navigation_drawer_open">navigationdraweropen</string>
+    <string name="navigation_drawer_close">navigationdrawerclose</string>
 </resources>
