@@ -1,4 +1,9 @@
 <resources>
     <string name="app_name">RetrofitDemo</string>
     <string name="error">Error, pls chech your internet connection and try again!</string>
+    <string name="useId">Use Id:</string>
+    <string name="name">Name:</string>
+    <string name="reputation">Reputation:</string>
+    <string name="last_activity_date">last_activity_date:</string>
+    <string name="answer_id">answer_id:</string>
 </resources>
