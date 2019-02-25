@@ -6,19 +6,15 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.ExpandableListView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.Toolbar;
 
 import com.google.gson.Gson;
 
@@ -27,6 +23,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -41,13 +39,8 @@ public class MainActivity extends AppCompatActivity {
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle drawerToggle;
 
-    TextView menu1;
-    TextView menu1_1;
-    TextView menu1_2;
-
-    LinearLayout ln_menu1;
-
     private ExpandableListView lvPhones;
+    List<String> companyModelList;
 
     ArrayList<Item> items = new ArrayList<>();
 
@@ -74,29 +67,40 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
 
+        loadAnswers();
+        new LoadContentAsync().execute();
 
-//        menu1.setOnClickListener(new View.OnClickListener() {
+//        lvPhones.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
 //            @Override
-//            public void onClick(View v) {
-//                if(menu1.isShown())
-//                {
-////                    ln_menu1.setVisibility(View.GONE);
-////                    ln_menu1.startAnimation(animationDown);
-//                    menu1_1.setVisibility(View.VISIBLE);
-//                    menu1_2.setVisibility(View.VISIBLE);
-//                }else {
-////                    ln_menu1.setVisibility(View.INVISIBLE);
-////                    ln_menu1.startAnimation(animationDown);
-//                    menu1_1.setVisibility(View.GONE);
-//                    menu1_2.setVisibility(View.GONE);
-//                }
+//            public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
+//                Toast.makeText(MainActivity.this, groupPosition + " Group", Toast.LENGTH_SHORT).show();
+//                return false;
+//            }
+//        });
 //
+//        lvPhones.setOnGroupExpandListener(new ExpandableListView.OnGroupExpandListener() {
+//            @Override
+//            public void onGroupExpand(int groupPosition) {
+//                Toast.makeText(MainActivity.this, groupPosition + " Group", Toast.LENGTH_SHORT).show();
+//            }
+//        });
+//
+//        lvPhones.setOnGroupCollapseListener(new ExpandableListView.OnGroupCollapseListener() {
+//            @Override
+//            public void onGroupCollapse(int groupPosition) {
+//                Toast.makeText(MainActivity.this, groupPosition + " Group", Toast.LENGTH_SHORT).show();
 //            }
 //        });
 
-        loadAnswers();
-        new LoadContentAsync().execute();
+        lvPhones.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
+            @Override
+            public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
+                Toast.makeText(MainActivity.this, childPosition + " Child", Toast.LENGTH_SHORT).show();
+                return false;
+            }
+        });
     }
+
 
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {

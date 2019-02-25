@@ -1,10 +1,12 @@
 package com.myubeo.retrofitdemo;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.List;
@@ -54,7 +56,7 @@ public class PhoneListAdapter extends BaseExpandableListAdapter{
     }
 
     @Override
-    public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
+    public View getGroupView( int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
         String companyName = ((CompanyModel) getGroup(groupPosition)).getName();
         if (convertView == null) {
             LayoutInflater infalInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -62,14 +64,23 @@ public class PhoneListAdapter extends BaseExpandableListAdapter{
         }
 
         TextView tvName = (TextView) convertView.findViewById(R.id.company_name);
+        tvName.setTypeface(null);
         tvName.setText(companyName);
+
+        ImageView img_icon = convertView.findViewById(R.id.img_icon);
+
+        if(isExpanded){
+            img_icon.setImageResource(R.drawable.ic_up);
+        }else {
+            img_icon.setImageResource(R.drawable.ic_down);
+        }
 
         return convertView;
     }
 
     @Override
     public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
-        final String deviceName = ((DeviceModel) getChild(groupPosition, childPosition)).getName();
+        String deviceName = ((DeviceModel) getChild(groupPosition, childPosition)).getName();
 
         if (convertView == null) {
             LayoutInflater infalInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
