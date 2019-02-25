@@ -70,28 +70,6 @@ public class MainActivity extends AppCompatActivity {
         loadAnswers();
         new LoadContentAsync().execute();
 
-//        lvPhones.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
-//            @Override
-//            public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
-//                Toast.makeText(MainActivity.this, groupPosition + " Group", Toast.LENGTH_SHORT).show();
-//                return false;
-//            }
-//        });
-//
-//        lvPhones.setOnGroupExpandListener(new ExpandableListView.OnGroupExpandListener() {
-//            @Override
-//            public void onGroupExpand(int groupPosition) {
-//                Toast.makeText(MainActivity.this, groupPosition + " Group", Toast.LENGTH_SHORT).show();
-//            }
-//        });
-//
-//        lvPhones.setOnGroupCollapseListener(new ExpandableListView.OnGroupCollapseListener() {
-//            @Override
-//            public void onGroupCollapse(int groupPosition) {
-//                Toast.makeText(MainActivity.this, groupPosition + " Group", Toast.LENGTH_SHORT).show();
-//            }
-//        });
-
         lvPhones.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
             @Override
             public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {

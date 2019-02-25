@@ -78,7 +78,6 @@
                 android:groupIndicator="@null"
                 />
 
-
         </LinearLayout>
 
     </android.support.design.widget.NavigationView>

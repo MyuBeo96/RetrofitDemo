@@ -1,13 +1,13 @@
 package com.myubeo.retrofitdemo;
 
 import android.content.Context;
-import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -79,8 +79,8 @@ public class PhoneListAdapter extends BaseExpandableListAdapter{
     }
 
     @Override
-    public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
-        String deviceName = ((DeviceModel) getChild(groupPosition, childPosition)).getName();
+    public View getChildView(final int groupPosition, final int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
+        final String deviceName = ((DeviceModel) getChild(groupPosition, childPosition)).getName();
 
         if (convertView == null) {
             LayoutInflater infalInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -89,6 +89,13 @@ public class PhoneListAdapter extends BaseExpandableListAdapter{
 
         TextView tvName = (TextView) convertView.findViewById(R.id.device_name);
         tvName.setText(deviceName);
+
+        convertView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(context,  " Child " + deviceName, Toast.LENGTH_SHORT).show();
+            }
+        });
 
         return convertView;
     }
