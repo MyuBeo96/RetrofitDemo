@@ -72,67 +72,10 @@
 
             <!-- Item Info -->
 
-            <LinearLayout
+            <ExpandableListView
+                android:id="@+id/phone_list"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/padding_tiny_plus_one"
-                android:background="@android:color/white"
-                android:gravity="center_vertical"
-                android:orientation="vertical"
-                android:paddingLeft="@dimen/activity_horizontal_margin"
-                android:paddingRight="@dimen/activity_horizontal_margin">
-
-                <TextView
-                    android:id="@+id/menu1"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="1. Menu 1"
-                    android:clickable="true"
-                    android:onClick="toggle_contents"
-                    />
-
-                <LinearLayout
-                    android:id="@+id/ln_menu1"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/padding_tiny_plus_one"
-                    android:background="@android:color/white"
-                    android:gravity="center_vertical"
-                    android:orientation="vertical"
-                    android:paddingLeft="@dimen/activity_horizontal_margin"
-                    android:paddingRight="@dimen/activity_horizontal_margin">
-
-                    <TextView
-                        android:id="@+id/menu1.1"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text=" Menu 1.1"
-                        android:layout_marginTop="@dimen/padding_tiny_plus_one"
-                        android:visibility="gone"
-                        />
-                    <TextView
-                        android:id="@+id/menu1.2"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text=" Menu 1.2"
-                        android:visibility="gone"
-                        android:layout_marginTop="@dimen/padding_tiny_plus_one"
-                        />
-
-                </LinearLayout>
-
-            </LinearLayout>
-
-
-
-            <TextView
-                android:paddingLeft="@dimen/activity_horizontal_margin"
-                android:paddingRight="@dimen/activity_horizontal_margin"
-                android:id="@+id/menu2"
-                android:layout_marginTop="@dimen/padding_tiny_plus_one"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="2. Menu 2" />
+                android:layout_height="wrap_content"/>
 
 
         </LinearLayout>

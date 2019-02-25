@@ -1,6 +1,7 @@
 package com.myubeo.retrofitdemo;
 
 import android.content.res.Configuration;
+import android.os.AsyncTask;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -13,11 +14,18 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.ExpandableListView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.Toolbar;
 
+import com.google.gson.Gson;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 
 import retrofit2.Call;
@@ -39,8 +47,7 @@ public class MainActivity extends AppCompatActivity {
 
     LinearLayout ln_menu1;
 
-    private Animation animationUp;
-    private Animation animationDown;
+    private ExpandableListView lvPhones;
 
     ArrayList<Item> items = new ArrayList<>();
 
@@ -49,11 +56,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate( savedInstanceState );
         setContentView(R.layout.activity_main );
 
-        menu1 = findViewById(R.id.menu1);
-        menu1_1 = findViewById(R.id.menu1_1);
-        menu1_2 = findViewById(R.id.menu1_2);
-        ln_menu1 = findViewById(R.id.ln_menu1);
-
         mService = ApiUtils.getSOService();
         mRecyclerView =  findViewById(R.id.rv_answers);
         mAdapter = new AnswersAdapter(this, items);
@@ -61,6 +63,8 @@ public class MainActivity extends AppCompatActivity {
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawerLayout.addDrawerListener(drawerToggle);
+
+        lvPhones = (ExpandableListView) findViewById(R.id.phone_list);
         
         final RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         ((LinearLayoutManager) layoutManager).setOrientation(LinearLayoutManager.VERTICAL);
@@ -70,30 +74,28 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
 
-        animationUp = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.slide_up);
-        animationDown = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.slide_down);
 
-
-        menu1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(menu1.isShown())
-                {
-//                    ln_menu1.setVisibility(View.GONE);
-//                    ln_menu1.startAnimation(animationDown);
-                    menu1_1.setVisibility(View.INVISIBLE);
-                    menu1_2.setVisibility(View.INVISIBLE);
-                }else {
-//                    ln_menu1.setVisibility(View.INVISIBLE);
-//                    ln_menu1.startAnimation(animationDown);
-                    menu1_1.setVisibility(View.GONE);
-                    menu1_2.setVisibility(View.GONE);
-                }
-
-            }
-        });
+//        menu1.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                if(menu1.isShown())
+//                {
+////                    ln_menu1.setVisibility(View.GONE);
+////                    ln_menu1.startAnimation(animationDown);
+//                    menu1_1.setVisibility(View.VISIBLE);
+//                    menu1_2.setVisibility(View.VISIBLE);
+//                }else {
+////                    ln_menu1.setVisibility(View.INVISIBLE);
+////                    ln_menu1.startAnimation(animationDown);
+//                    menu1_1.setVisibility(View.GONE);
+//                    menu1_2.setVisibility(View.GONE);
+//                }
+//
+//            }
+//        });
 
         loadAnswers();
+        new LoadContentAsync().execute();
     }
 
     @Override
@@ -151,6 +153,34 @@ public class MainActivity extends AppCompatActivity {
 
     private void showErrorMessage() {
         Toast.makeText(this, "Error loading posts", Toast.LENGTH_SHORT).show();
+    }
+
+    class LoadContentAsync extends AsyncTask<Void, Void, MainContentModel> {
+
+        @Override
+        protected MainContentModel doInBackground(Void... voids) {
+            Gson gson = new Gson();
+            MainContentModel mainContentModel = null;
+            try {
+                InputStream is = getAssets().open("phones.json");
+                BufferedReader reader = new BufferedReader(new InputStreamReader(is));
+
+                synchronized (this) {
+                    mainContentModel = gson.fromJson(reader, MainContentModel.class);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return mainContentModel;
+        }
+
+        @Override
+        protected void onPostExecute(MainContentModel mainContentModel) {
+            super.onPostExecute(mainContentModel);
+
+            PhoneListAdapter phoneListAdapter = new PhoneListAdapter(MainActivity.this, mainContentModel.getCompanies());
+            lvPhones.setAdapter(phoneListAdapter);
+        }
     }
 
 
