@@ -8,12 +8,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.DragEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ExpandableListView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -23,8 +23,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -40,7 +38,8 @@ public class MainActivity extends AppCompatActivity {
     private ActionBarDrawerToggle drawerToggle;
 
     private ExpandableListView lvPhones;
-    List<String> companyModelList;
+
+    Button btn_edit;
 
     ArrayList<Item> items = new ArrayList<>();
 
@@ -53,11 +52,13 @@ public class MainActivity extends AppCompatActivity {
         mRecyclerView =  findViewById(R.id.rv_answers);
         mAdapter = new AnswersAdapter(this, items);
 
-        drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawerLayout =  findViewById(R.id.drawer_layout);
         drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawerLayout.addDrawerListener(drawerToggle);
 
-        lvPhones = (ExpandableListView) findViewById(R.id.phone_list);
+        lvPhones =  findViewById(R.id.phone_list);
+
+        btn_edit = findViewById(R.id.btn_edit);
         
         final RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         ((LinearLayoutManager) layoutManager).setOrientation(LinearLayoutManager.VERTICAL);
@@ -70,10 +71,16 @@ public class MainActivity extends AppCompatActivity {
         loadAnswers();
         new LoadContentAsync().execute();
 
-        lvPhones.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
+        btn_edit.setOnClickListener(new View.OnClickListener() {
             @Override
-            public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
-                Toast.makeText(MainActivity.this, childPosition + " Child", Toast.LENGTH_SHORT).show();
+            public void onClick(View v) {
+                Toast.makeText(MainActivity.this, "Ahihi", Toast.LENGTH_LONG).show();
+            }
+        });
+
+        lvPhones.setOnDragListener(new View.OnDragListener() {
+            @Override
+            public boolean onDrag(View v, DragEvent event) {
                 return false;
             }
         });

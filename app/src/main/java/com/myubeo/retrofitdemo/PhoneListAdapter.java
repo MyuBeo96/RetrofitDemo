@@ -74,7 +74,6 @@ public class PhoneListAdapter extends BaseExpandableListAdapter{
         }else {
             img_icon.setImageResource(R.drawable.ic_down);
         }
-
         return convertView;
     }
 

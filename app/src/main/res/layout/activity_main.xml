@@ -37,7 +37,7 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="240dp"
+                android:layout_height="290dp"
                 android:background="@color/colorPrimary"
                 android:gravity="bottom"
                 android:orientation="vertical"
@@ -67,6 +67,13 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="vudieulinh@gmail.com" />
+
+                <Button
+                    android:id="@+id/btn_edit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Chỉnh sửa"
+                    />
 
             </LinearLayout>
 
